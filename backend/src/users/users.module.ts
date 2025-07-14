@@ -3,7 +3,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './user.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([User])], // 👈 connect entity here
-  exports: [TypeOrmModule], // 👈 allow other modules to inject User repo
+  imports: [TypeOrmModule.forFeature([User])],
+  exports: [TypeOrmModule],
 })
 export class UsersModule {}
