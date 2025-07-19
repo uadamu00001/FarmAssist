@@ -1,4 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Procurement } from 'src/procurement/entities/procurement.entity';
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 
 @Entity()
 export class User {
@@ -13,4 +14,7 @@ export class User {
 
   @Column({ default: 'farmer' })
   role: string;
+
+  @OneToMany(() => Procurement, (procurement) => procurement.owner)
+  procurements: Procurement[];
 }
