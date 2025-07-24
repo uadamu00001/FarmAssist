@@ -7,6 +7,9 @@ import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { WeatherModule } from './weather/weather.module';
 import { ProcurementModule } from './procurement/procurement.module';
+import { HealthModule } from './health/health.module';
+import { APP_INTERCEPTOR } from '@nestjs/core';
+import { HealthInterceptor } from './health/health.interceptor';
 
 @Module({
   imports: [
@@ -31,8 +34,15 @@ import { ProcurementModule } from './procurement/procurement.module';
     AuthModule,
     WeatherModule,
     ProcurementModule,
+    HealthModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: HealthInterceptor,
+    },
+  ],
 })
 export class AppModule {}
