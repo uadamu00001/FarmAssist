@@ -8,6 +8,7 @@ import { AuthModule } from './auth/auth.module';
 import { WeatherModule } from './weather/weather.module';
 import { ProcurementModule } from './procurement/procurement.module';
 import { HealthModule } from './health/health.module';
+import { UtilsModule } from './utils/utils.module';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { HealthInterceptor } from './health/health.interceptor';
 
@@ -35,6 +36,7 @@ import { HealthInterceptor } from './health/health.interceptor';
     WeatherModule,
     ProcurementModule,
     HealthModule,
+    UtilsModule,
   ],
   controllers: [AppController],
   providers: [
