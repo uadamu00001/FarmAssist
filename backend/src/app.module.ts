@@ -11,6 +11,7 @@ import { HealthModule } from './health/health.module';
 import { UtilsModule } from './utils/utils.module';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { HealthInterceptor } from './health/health.interceptor';
+import { SuppliersModule } from './suppliers/suppliers.module';
 
 @Module({
   imports: [
@@ -37,6 +38,7 @@ import { HealthInterceptor } from './health/health.interceptor';
     ProcurementModule,
     HealthModule,
     UtilsModule,
+    SuppliersModule,
   ],
   controllers: [AppController],
   providers: [
