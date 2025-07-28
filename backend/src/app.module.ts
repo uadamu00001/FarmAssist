@@ -12,6 +12,7 @@ import { UtilsModule } from './utils/utils.module';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { HealthInterceptor } from './health/health.interceptor';
 import { SuppliersModule } from './suppliers/suppliers.module';
+import { UserPreferencesModule } from './user-preferences/user-preferences.module';
 
 @Module({
   imports: [
@@ -39,6 +40,7 @@ import { SuppliersModule } from './suppliers/suppliers.module';
     HealthModule,
     UtilsModule,
     SuppliersModule,
+    UserPreferencesModule,
   ],
   controllers: [AppController],
   providers: [
