@@ -13,6 +13,7 @@ import { APP_INTERCEPTOR } from '@nestjs/core';
 import { HealthInterceptor } from './health/health.interceptor';
 import { SuppliersModule } from './suppliers/suppliers.module';
 import { UserPreferencesModule } from './user-preferences/user-preferences.module';
+import { PurchaseTrackingModule } from './purchase-tracking/purchase-tracking.module';
 
 @Module({
   imports: [
@@ -41,6 +42,7 @@ import { UserPreferencesModule } from './user-preferences/user-preferences.modul
     UtilsModule,
     SuppliersModule,
     UserPreferencesModule,
+    PurchaseTrackingModule,
   ],
   controllers: [AppController],
   providers: [
