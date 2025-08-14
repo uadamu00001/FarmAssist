@@ -14,7 +14,8 @@ import { HealthInterceptor } from './health/health.interceptor';
 import { SuppliersModule } from './suppliers/suppliers.module';
 import { UserPreferencesModule } from './user-preferences/user-preferences.module';
 import { InventoryTrackingModule } from './inventory-stock/inventory-stock.module';
-import { PurchaseTrackingModule } from './purchase-tracking/purchase-tracking.module';
+import { PurchaseRecordingModule } from './purchase-tracking/purchase-tracking.module';
+import { AnimalFeedModule } from './animal-feed/animal-feed.module';
 
 @Module({
   imports: [
@@ -43,8 +44,9 @@ import { PurchaseTrackingModule } from './purchase-tracking/purchase-tracking.mo
     UtilsModule,
     SuppliersModule,
     UserPreferencesModule,
-    InventoryTrackingModule
-    PurchaseTrackingModule,
+    InventoryTrackingModule,
+    PurchaseRecordingModule,
+    AnimalFeedModule,
   ],
   controllers: [AppController],
   providers: [
