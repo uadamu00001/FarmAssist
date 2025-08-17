@@ -39,4 +39,12 @@ export class Notification {
 
   @Column({ type: 'varchar', nullable: true })
   lastErrorMessage?: string;
+
+  // Recurring support: 'none', 'daily', 'weekly', 'monthly'
+  @Column({ type: 'varchar', default: 'none' })
+  recurrence: 'none' | 'daily' | 'weekly' | 'monthly';
+
+  // If recurring, when to stop (null = forever)
+  @Column({ type: 'timestamptz', nullable: true })
+  recurrenceEnd?: Date;
 }

@@ -46,16 +46,23 @@ export class NotificationSchedulerService {
     const now = Date.now();
     const delay = Math.max(0, sendAt - now);
 
+    this.logger.log(`Scheduling notification ${n.id} (status: ${n.status}, recurrence: ${n.recurrence}) to run in ${Math.round(delay / 1000)}s`);
+
     setTimeout(async () => {
       // refetch from DB in case status changed
       let current = await this.notificationRepo.findOneBy({ id: n.id });
-      if (!current || current.status !== 'scheduled') return;
+      if (!current || current.status !== 'scheduled') {
+        this.logger.warn(`Notification ${n.id} not sent: status is now ${current?.status}`);
+        return;
+      }
 
       try {
         let res;
         if (current.channel === 'email') {
+          this.logger.log(`Attempting to send EMAIL notification ${current.id} to ${current.to}`);
           res = await sendEmail(current.to, current.subject, current.body);
         } else {
+          this.logger.log(`Attempting to send SMS notification ${current.id} to ${current.to}`);
           res = await sendSms(current.to, current.body);
         }
 
@@ -64,6 +71,24 @@ export class NotificationSchedulerService {
           current.lastErrorCode = 0;
           current.lastErrorMessage = null;
           this.logger.log(`Notification ${current.id} sent (${current.channel}) to ${current.to}`);
+
+          // Recurring support: schedule next occurrence if needed
+          if (current.recurrence && current.recurrence !== 'none') {
+            const nextDate = this.getNextRecurrence(current.sendAt, current.recurrence);
+            if (
+              nextDate &&
+              (!current.recurrenceEnd || nextDate <= current.recurrenceEnd)
+            ) {
+              this.logger.log(`Rescheduling recurring notification ${current.id} for ${nextDate.toISOString()}`);
+              // Reset status and retry fields for next occurrence
+              current.status = 'scheduled';
+              current.retryCount = 0;
+              current.sendAt = nextDate;
+              await this.notificationRepo.save(current);
+              this.setupTimer(current);
+              return;
+            }
+          }
         } else {
           // failed, retry if possible
           current.retryCount = (current.retryCount || 0) + 1;
@@ -97,6 +122,24 @@ export class NotificationSchedulerService {
 
       await this.notificationRepo.save(current);
     }, delay);
+  }
+
+  // Calculate next recurrence date
+  private getNextRecurrence(date: Date, recurrence: string): Date | null {
+    const d = new Date(date);
+    switch (recurrence) {
+      case 'daily':
+        d.setDate(d.getDate() + 1);
+        return d;
+      case 'weekly':
+        d.setDate(d.getDate() + 7);
+        return d;
+      case 'monthly':
+        d.setMonth(d.getMonth() + 1);
+        return d;
+      default:
+        return null;
+    }
   }
 
   // On service start, reschedule all scheduled notifications in the future

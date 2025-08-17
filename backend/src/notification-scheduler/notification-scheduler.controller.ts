@@ -57,6 +57,8 @@ export class NotificationSchedulerController {
       maxRetries: 3,
       lastErrorCode: 0,
       lastErrorMessage: null,
+      recurrence: dto.recurrence ?? 'none',
+      recurrenceEnd: dto.recurrenceEnd ? new Date(dto.recurrenceEnd) : null,
     });
     return n;
   }
