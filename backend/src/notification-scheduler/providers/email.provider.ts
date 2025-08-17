@@ -23,7 +23,7 @@ export async function sendEmail(to: string, subject: string | undefined, body: s
     return { ok: true, info };
   }
 
-  // Fallback mock
+  // Fallback mockk
   console.log(`[Notification][Email] To=${to} Subject=${subject} Body=${body}`);
   return { ok: true, info: 'mock-sent' };
 }
