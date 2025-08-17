@@ -1,3 +1,33 @@
+// ...existing code...
+
+@Injectable()
+export class SoilTypeRegistryService {
+  private soilTypes: SoilType[] = [];
+
+  // ...existing code...
+
+  /**
+   * Suggest crops based on soil properties.
+   * This is a simple rule-based example. In a real app, use a database or ML model.
+   */
+  suggestCrops(dto: CreateSoilTypeDto): string[] {
+    // Example rules
+    if (dto.pH >= 6 && dto.pH <= 7.5 && dto.drainage === 'moderate' && dto.fertility === 'high') {
+      return ['wheat', 'corn', 'soybean'];
+    }
+    if (dto.pH < 5.5) {
+      return ['potato', 'sweet potato', 'blueberry'];
+    }
+    if (dto.drainage === 'excellent') {
+      return ['carrot', 'peanut', 'watermelon'];
+    }
+    if (dto.fertility === 'low') {
+      return ['millet', 'sorghum'];
+    }
+    return ['generic crop'];
+  }
+
+  // ...existing code...
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateSoilTypeDto } from './dto/create-soil-type.dto';
 import { UpdateSoilTypeDto } from './dto/update-soil-type.dto';

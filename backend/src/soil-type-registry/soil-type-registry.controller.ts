@@ -1,3 +1,13 @@
+  /**
+   * Suggest crops based on soil properties.
+   */
+  @Post('suggest-crops')
+  @ApiOperation({ summary: 'Suggest crops based on soil properties' })
+  @ApiBody({ type: CreateSoilTypeDto })
+  @ApiResponse({ status: 200, description: 'Suggested crops.' })
+  suggestCrops(@Body() dto: CreateSoilTypeDto) {
+    return this.soilTypeService.suggestCrops(dto);
+  }
 
 import { Controller, Get, Post, Body, Param, Put, Delete } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse, ApiBody, ApiParam, ApiQuery } from '@nestjs/swagger';
