@@ -27,4 +27,16 @@ export class Notification {
 
   @Column({ type: 'varchar', default: 'scheduled' })
   status: 'scheduled' | 'sent' | 'cancelled' | 'failed';
+
+  @Column({ type: 'int', default: 0 })
+  retryCount: number;
+
+  @Column({ type: 'int', default: 3 })
+  maxRetries: number;
+
+  @Column({ type: 'int', default: 0 })
+  lastErrorCode: number;
+
+  @Column({ type: 'varchar', nullable: true })
+  lastErrorMessage?: string;
 }

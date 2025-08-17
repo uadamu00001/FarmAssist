@@ -48,7 +48,7 @@ export class NotificationSchedulerService {
 
     setTimeout(async () => {
       // refetch from DB in case status changed
-      const current = await this.notificationRepo.findOneBy({ id: n.id });
+      let current = await this.notificationRepo.findOneBy({ id: n.id });
       if (!current || current.status !== 'scheduled') return;
 
       try {
@@ -61,14 +61,38 @@ export class NotificationSchedulerService {
 
         if (res && (res as any).ok) {
           current.status = 'sent';
+          current.lastErrorCode = 0;
+          current.lastErrorMessage = null;
           this.logger.log(`Notification ${current.id} sent (${current.channel}) to ${current.to}`);
         } else {
-          current.status = 'failed';
-          this.logger.warn(`Notification ${current.id} failed to send: ${JSON.stringify(res)}`);
+          // failed, retry if possible
+          current.retryCount = (current.retryCount || 0) + 1;
+          current.lastErrorCode = 1;
+          current.lastErrorMessage = JSON.stringify(res);
+          if (current.retryCount < (current.maxRetries || 3)) {
+            this.logger.warn(`Notification ${current.id} failed to send, retrying (${current.retryCount}/${current.maxRetries}): ${current.lastErrorMessage}`);
+            await this.notificationRepo.save(current);
+            // retry after 30 seconds
+            setTimeout(() => this.setupTimer(current), 30000);
+            return;
+          } else {
+            current.status = 'failed';
+            this.logger.warn(`Notification ${current.id} failed after max retries: ${current.lastErrorMessage}`);
+          }
         }
       } catch (err) {
-        current.status = 'failed';
-        this.logger.error(`Notification ${current.id} send error`, err as any);
+        current.retryCount = (current.retryCount || 0) + 1;
+        current.lastErrorCode = 2;
+        current.lastErrorMessage = (err as any)?.message || String(err);
+        if (current.retryCount < (current.maxRetries || 3)) {
+          this.logger.warn(`Notification ${current.id} send error, retrying (${current.retryCount}/${current.maxRetries}): ${current.lastErrorMessage}`);
+          await this.notificationRepo.save(current);
+          setTimeout(() => this.setupTimer(current), 30000);
+          return;
+        } else {
+          current.status = 'failed';
+          this.logger.error(`Notification ${current.id} send error after max retries: ${current.lastErrorMessage}`);
+        }
       }
 
       await this.notificationRepo.save(current);
