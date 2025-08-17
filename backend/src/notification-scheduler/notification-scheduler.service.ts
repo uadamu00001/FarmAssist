@@ -1,5 +1,6 @@
 
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable, Logger, Inject } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, LessThan, Not, MoreThan } from 'typeorm';
 import { Notification } from './notification.entity';
@@ -13,6 +14,7 @@ export class NotificationSchedulerService {
   constructor(
     @InjectRepository(Notification)
     private readonly notificationRepo: Repository<Notification>,
+    private readonly configService: ConfigService,
   ) {
     // On service start, schedule all pending notifications
     this.rescheduleAllPending();
@@ -48,7 +50,8 @@ export class NotificationSchedulerService {
 
     this.logger.log(`Scheduling notification ${n.id} (status: ${n.status}, recurrence: ${n.recurrence}) to run in ${Math.round(delay / 1000)}s`);
 
-    setTimeout(async () => {
+  const retryDelay = this.configService.get<number>('NOTIFICATION_RETRY_DELAY_MS', 30000);
+  setTimeout(async () => {
       // refetch from DB in case status changed
       let current = await this.notificationRepo.findOneBy({ id: n.id });
       if (!current || current.status !== 'scheduled') {
@@ -98,7 +101,7 @@ export class NotificationSchedulerService {
             this.logger.warn(`Notification ${current.id} failed to send, retrying (${current.retryCount}/${current.maxRetries}): ${current.lastErrorMessage}`);
             await this.notificationRepo.save(current);
             // retry after 30 seconds
-            setTimeout(() => this.setupTimer(current), 30000);
+            setTimeout(() => this.setupTimer(current), retryDelay);
             return;
           } else {
             current.status = 'failed';
@@ -112,7 +115,7 @@ export class NotificationSchedulerService {
         if (current.retryCount < (current.maxRetries || 3)) {
           this.logger.warn(`Notification ${current.id} send error, retrying (${current.retryCount}/${current.maxRetries}): ${current.lastErrorMessage}`);
           await this.notificationRepo.save(current);
-          setTimeout(() => this.setupTimer(current), 30000);
+          setTimeout(() => this.setupTimer(current), retryDelay);
           return;
         } else {
           current.status = 'failed';
