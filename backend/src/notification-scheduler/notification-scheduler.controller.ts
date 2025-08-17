@@ -63,6 +63,7 @@ export class NotificationSchedulerController {
     return n;
   }
 
+  //delete
   @Delete(':id')
   async cancel(@Param('id') id: string) {
     const i = Number(id);
