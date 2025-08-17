@@ -40,7 +40,7 @@ export class Notification {
   @Column({ type: 'varchar', nullable: true })
   lastErrorMessage?: string;
 
-  // Recurring support: 'none', 'daily', 'weekly', 'monthly'
+  // Recurring ssupport: 'none', 'daily', 'weekly', 'monthly'
   @Column({ type: 'varchar', default: 'none' })
   recurrence: 'none' | 'daily' | 'weekly' | 'monthly';
 
