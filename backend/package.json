@@ -12,6 +12,8 @@
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
+  "start:notifications:dev": "ts-node -r tsconfig-paths/register src/notification-scheduler/main.ts",
+  "start:notifications": "node dist/notification-scheduler/main.js",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "test": "jest",
     "test:watch": "jest --watch",
