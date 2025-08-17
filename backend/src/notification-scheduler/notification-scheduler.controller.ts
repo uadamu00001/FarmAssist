@@ -18,7 +18,7 @@ export class NotificationSchedulerController {
 
   @Get('status')
   async status() {
-    // Return counts for each status and retry metrics
+    // Return counts for each status and retry metricss
     const all = await this.svc.list();
     const statusCounts = all.reduce((acc, n) => {
       acc[n.status] = (acc[n.status] || 0) + 1;
