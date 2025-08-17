@@ -38,11 +38,37 @@ export class SoilTypeRegistryService {
   }
 
   classify(dto: CreateSoilTypeDto): string {
-    // Simple example logic for classification
-    if (dto.pH < 5.5) return 'Acidic';
-    if (dto.pH > 7.5) return 'Alkaline';
-    if (dto.drainage === 'poor') return 'Clay';
-    if (dto.drainage === 'excellent') return 'Sandy';
-    return 'Loam';
+    // Advanced logic: consider pH, drainage, fertility, and crop compatibility
+    if (dto.pH < 5.5 && dto.drainage === 'poor' && dto.fertility === 'low') {
+      return 'Acidic Heavy Clay (Low Fertility)';
+    }
+    if (dto.pH > 7.5 && dto.drainage === 'excellent' && dto.fertility === 'high') {
+      return 'Alkaline Sandy (High Fertility)';
+    }
+    if (dto.pH >= 6 && dto.pH <= 7.5 && dto.drainage === 'moderate' && dto.fertility === 'high') {
+      return 'Ideal Loam';
+    }
+    if (dto.drainage === 'poor') {
+      return 'Clay';
+    }
+    if (dto.drainage === 'excellent') {
+      return 'Sandy';
+    }
+    if (dto.fertility === 'low') {
+      return 'Infertile Soil';
+    }
+    return 'General';
+  }
+
+  filterByPhRange(min: number, max: number): SoilType[] {
+    return this.soilTypes.filter(s => s.pH >= min && s.pH <= max);
+  }
+
+  filterByDrainage(drainage: 'poor' | 'moderate' | 'excellent'): SoilType[] {
+    return this.soilTypes.filter(s => s.drainage === drainage);
+  }
+
+  filterByCrop(crop: string): SoilType[] {
+    return this.soilTypes.filter(s => s.cropCompatibility.includes(crop));
   }
 }

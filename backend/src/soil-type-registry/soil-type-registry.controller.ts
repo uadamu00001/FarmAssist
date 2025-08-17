@@ -36,4 +36,19 @@ export class SoilTypeRegistryController {
   classify(@Body() dto: CreateSoilTypeDto) {
     return this.soilTypeService.classify(dto);
   }
+
+  @Get('filter/ph')
+  filterByPhRange(@Body() body: { min: number; max: number }) {
+    return this.soilTypeService.filterByPhRange(body.min, body.max);
+  }
+
+  @Get('filter/drainage/:drainage')
+  filterByDrainage(@Param('drainage') drainage: 'poor' | 'moderate' | 'excellent') {
+    return this.soilTypeService.filterByDrainage(drainage);
+  }
+
+  @Get('filter/crop/:crop')
+  filterByCrop(@Param('crop') crop: string) {
+    return this.soilTypeService.filterByCrop(crop);
+  }
 }
