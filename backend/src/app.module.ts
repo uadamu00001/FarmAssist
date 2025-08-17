@@ -15,7 +15,9 @@ import { SuppliersModule } from './suppliers/suppliers.module';
 import { UserPreferencesModule } from './user-preferences/user-preferences.module';
 import { InventoryTrackingModule } from './inventory-stock/inventory-stock.module';
 import { PurchaseRecordingModule } from './purchase-tracking/purchase-tracking.module';
+
 import { AnimalFeedModule } from './animal-feed/animal-feed.module';
+import { SoilTypeRegistryModule } from './soil-type-registry/soil-type-registry.module';
 
 @Module({
   imports: [
@@ -46,7 +48,8 @@ import { AnimalFeedModule } from './animal-feed/animal-feed.module';
     UserPreferencesModule,
     InventoryTrackingModule,
     PurchaseRecordingModule,
-    AnimalFeedModule,
+  AnimalFeedModule,
+  SoilTypeRegistryModule,
   ],
   controllers: [AppController],
   providers: [
