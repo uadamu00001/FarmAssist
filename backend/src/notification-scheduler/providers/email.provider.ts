@@ -1,7 +1,7 @@
 import nodemailer from 'nodemailer';
 
 export async function sendEmail(to: string, subject: string | undefined, body: string) {
-  // If SMTP env is configured, try to send. Otherwise just log (safe mock).
+  // If SMTP env is configured, try to sends. Otherwise just log (safe mock).
   if (process.env.SMTP_HOST && process.env.SMTP_PORT) {
     const transporter = nodemailer.createTransport({
       host: process.env.SMTP_HOST,
