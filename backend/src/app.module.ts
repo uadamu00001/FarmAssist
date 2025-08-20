@@ -17,6 +17,7 @@ import { InventoryTrackingModule } from './inventory-stock/inventory-stock.modul
 import { PurchaseRecordingModule } from './purchase-tracking/purchase-tracking.module';
 import { AnimalFeedModule } from './animal-feed/animal-feed.module';
 import { InputPriceTrackerModule } from './input-price-tracker/input-price-tracker.module';
+import { EquipmentMarketplaceModule } from './equipment-marketplace/equipment-marketplace.module';
 
 @Module({
   imports: [
@@ -49,6 +50,7 @@ import { InputPriceTrackerModule } from './input-price-tracker/input-price-track
     PurchaseRecordingModule,
     AnimalFeedModule,
     InputPriceTrackerModule,
+    EquipmentMarketplaceModule,
   ],
   controllers: [AppController],
   providers: [
