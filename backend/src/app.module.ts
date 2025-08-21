@@ -15,7 +15,9 @@ import { SuppliersModule } from './suppliers/suppliers.module';
 import { UserPreferencesModule } from './user-preferences/user-preferences.module';
 import { InventoryTrackingModule } from './inventory-stock/inventory-stock.module';
 import { PurchaseRecordingModule } from './purchase-tracking/purchase-tracking.module';
+
 import { AnimalFeedModule } from './animal-feed/animal-feed.module';
+import { SoilTypeRegistryModule } from './soil-type-registry/soil-type-registry.module';
 import { InputPriceTrackerModule } from './input-price-tracker/input-price-tracker.module';
 import { EquipmentMarketplaceModule } from './equipment-marketplace/equipment-marketplace.module';
 
@@ -48,6 +50,8 @@ import { EquipmentMarketplaceModule } from './equipment-marketplace/equipment-ma
     UserPreferencesModule,
     InventoryTrackingModule,
     PurchaseRecordingModule,
+  AnimalFeedModule,
+  SoilTypeRegistryModule,
     AnimalFeedModule,
     InputPriceTrackerModule,
     EquipmentMarketplaceModule,
