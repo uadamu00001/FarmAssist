@@ -18,6 +18,8 @@ import { PurchaseRecordingModule } from './purchase-tracking/purchase-tracking.m
 
 import { AnimalFeedModule } from './animal-feed/animal-feed.module';
 import { SoilTypeRegistryModule } from './soil-type-registry/soil-type-registry.module';
+import { InputPriceTrackerModule } from './input-price-tracker/input-price-tracker.module';
+import { EquipmentMarketplaceModule } from './equipment-marketplace/equipment-marketplace.module';
 
 @Module({
   imports: [
@@ -50,6 +52,9 @@ import { SoilTypeRegistryModule } from './soil-type-registry/soil-type-registry.
     PurchaseRecordingModule,
   AnimalFeedModule,
   SoilTypeRegistryModule,
+    AnimalFeedModule,
+    InputPriceTrackerModule,
+    EquipmentMarketplaceModule,
   ],
   controllers: [AppController],
   providers: [
