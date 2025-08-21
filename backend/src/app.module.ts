@@ -16,6 +16,8 @@ import { UserPreferencesModule } from './user-preferences/user-preferences.modul
 import { InventoryTrackingModule } from './inventory-stock/inventory-stock.module';
 import { PurchaseRecordingModule } from './purchase-tracking/purchase-tracking.module';
 import { AnimalFeedModule } from './animal-feed/animal-feed.module';
+import { InputPriceTrackerModule } from './input-price-tracker/input-price-tracker.module';
+import { EquipmentMarketplaceModule } from './equipment-marketplace/equipment-marketplace.module';
 
 @Module({
   imports: [
@@ -47,6 +49,8 @@ import { AnimalFeedModule } from './animal-feed/animal-feed.module';
     InventoryTrackingModule,
     PurchaseRecordingModule,
     AnimalFeedModule,
+    InputPriceTrackerModule,
+    EquipmentMarketplaceModule,
   ],
   controllers: [AppController],
   providers: [
