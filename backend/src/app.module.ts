@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { AdvisoryModule } from './advisory/advisory.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsersModule } from './users/users.module';
@@ -23,11 +24,8 @@ import { EquipmentMarketplaceModule } from './equipment-marketplace/equipment-ma
 
 @Module({
   imports: [
-    ConfigModule.forRoot({
-      isGlobal: true,
-    }),
+    ConfigModule.forRoot({ isGlobal: true }),
     TypeOrmModule.forRootAsync({
-      imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => ({
         type: 'postgres',
@@ -50,11 +48,11 @@ import { EquipmentMarketplaceModule } from './equipment-marketplace/equipment-ma
     UserPreferencesModule,
     InventoryTrackingModule,
     PurchaseRecordingModule,
-  AnimalFeedModule,
-  SoilTypeRegistryModule,
     AnimalFeedModule,
+    SoilTypeRegistryModule,
     InputPriceTrackerModule,
     EquipmentMarketplaceModule,
+    AdvisoryModule,
   ],
   controllers: [AppController],
   providers: [
