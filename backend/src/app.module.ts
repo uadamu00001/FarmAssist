@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AdvisoryModule } from './advisory/advisory.module';
+import { AdvisoryModule } from './advisory/advisory.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsersModule } from './users/users.module';
@@ -52,7 +53,8 @@ import { EquipmentMarketplaceModule } from './equipment-marketplace/equipment-ma
     SoilTypeRegistryModule,
     InputPriceTrackerModule,
     EquipmentMarketplaceModule,
-    AdvisoryModule,
+  AdvisoryModule,
+  FeedbackModule,
   ],
   controllers: [AppController],
   providers: [
